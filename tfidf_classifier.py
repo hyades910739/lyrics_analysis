@@ -35,10 +35,14 @@ def tfidf_classifier(train_x,train_y,test_x,test_y,n=3):
     for title in train_x.index:
         train_feature.loc[title,:] = ((train_x.loc[title,:]>0)*emotion_tfidf).sum(1)
 
+    
     # get test feature:
     test_feature = pd.DataFrame(index=test_x.index,columns=emotion_tf.index)
     for title in test_x.index:
         test_feature.loc[title,:] = ((test_x.loc[title,:]>0)*emotion_tfidf).sum(1)    
+
+    pd.DataFrame.to_csv(train_feature,"train_feature.csv",encoding="utf_8_sig")
+    pd.DataFrame.to_csv(test_feature,"test_feature.csv",encoding="utf_8_sig")
     
     #fit model
     neigh = KNeighborsClassifier(n_neighbors=n)
